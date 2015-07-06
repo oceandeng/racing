@@ -1,97 +1,41 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <meta name="format-detection" content="telephone=no,email=no">
-    <meta name="full-screen" content="yes">
-    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
-    <meta content="no-cache" http-equiv="pragma">
-    <meta content="0" http-equiv="expires">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>飙车</title>
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <!-- build:css(.tmp) styles/game.css -->
-    <link rel="stylesheet" href="styles/game.css">
-    <!-- endbuild -->
-    <script>
-        var gConfig = {
-                wxDesc: "",
-                wxData: {
-                    appId: "",
-                    imgUrl: "",
-                    link: window.location.href,
-                    desc: "",
-                    title: ""
-                },
-                activeId: "",
-                sApi: ""
-            }
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no,email=no">
+<meta name="full-screen" content="yes">
+<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+<meta content="no-cache" http-equiv="pragma">
+<meta content="0" http-equiv="expires">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>卡车追妹子</title>
+<!-- build:css(.tmp) styles/main.css -->
+<link rel="stylesheet" href="styles/main.css">
+<!-- endbuild -->
 </head>
 <body>
-    <div id="main">
-        <div id="guidePanel"></div>
-        <div id="gamePanel">
-            <div class="count-down">
-                <span id="time"></span>
-            </div>
-            <div class="score-wrap">
-                <div class="heart"></div>
-                <span id="score">00002</span>
-            </div>
-            <canvas id="stage" class="playing">
-                <span>Browser does not support the canvas.</span>
-            </canvas>
-        </div>
-        <div id="gameoverPanel"></div>
-        <div id="timeoutPanel"></div>
-        <div id="resultPanel">
-            <div class="weixin-share"></div>
-            <a href="javascript:void(0)" class="replay">再玩一次</a>
-            <div id="scoreBoard" class="panel">
-                <div class="rank">
-                    <h4>追妹排行榜</h4>
-                    <ul>
-                        <li class="gold">210</li>
-                        <li class="silver">190</li>
-                        <li class="bronze">189</li>
-                    </ul>
-                </div>
-                <div class="score-result score-1">
-                    <p class="tips">你木有追到一个妹纸哦~</p>
-                    <a href="javascript:void(0)" class="share" data-desc="我开豪车一路狂飙，被妹纸们华丽丽的无视，心塞！">向基友们求人品！</a>
-                </div>
-                <div class="score-result score-2">
-                    <p class="tips">矮油，成功追到<span>2</span>个妹纸</p>
-                    <a href="javascript:void(0)" class="share" data-desc="喜讯：我开豪车成功追到{x}个妹纸！吼吼，请为我点赞！">向小伙伴炫耀！</a>
-                </div>
-                <div class="score-result score-3">
-                    <p class="tips">哇噢，成功追到<span>20</span>个妹纸！
-                        <br>获得了一个爱心礼盒</p>
-                    <a href="javascript:void(0)" class="lottery">打开礼盒</a>
-                </div>
-            </div>
-            <div id="prize" class="panel">
-                <div class="prize-default">
-                    <img src="about:blank" class="random-prize">
-                    <a href="javascript:void(0)" class="share" data-desc="我开豪车搭{x}个妹纸回家~获赠平安符，好人一生平安|我开豪车搭{x}个妹纸回家~桃花运从天而降，再接再厉">向小伙伴炫耀！</a>
-                </div>
-                <div id="prizeResult" class="panel">
-                    <div class="scroll-rst">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="scripts/jquery.1102.js"></script>
-    <!-- <script src="scripts/jquery-md5-1.2.1.js"></script> -->
-    <script src="scripts/Game.js"></script>
-    <!-- <script src="scripts/cookie.js"></script> -->
-    <script src="scripts/resource.js"></script>
-    <script src="scripts/main.js"></script>
+<header>
+    <h1>HTML5进度条效果</h1>
+</header>
+<section id="score">   
+    <canvas id="prizebar">
+        Your browser does not have support for canvas.
+    </canvas>
+</section>
 
+<!-- build:js(.) scripts/vendor.js -->
+<!-- bower:js -->
+<script src="bower_components/zepto/zepto.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js scripts/otools.js -->
+<script src="scripts/otools.js"></script>
+<!-- endbuild -->
+<!-- build:js scripts/progressbar.js -->
+<script src="scripts/progressbar.js"></script>
+<!-- endbuild -->
 </body>
 </html>
