@@ -63,7 +63,7 @@
         a = e(window).height(),
         f = "ontouchend" in document,
         roadLevel = 1,
-        gameCount = 15,
+        gameCount = 120,
         l,
         c,
         h = {
@@ -161,7 +161,7 @@
                 this.height = this.width / this.model.width * this.model.height,
                 this.x = Math.random() * (l - this.width),
                 this.y = -this.height;
-                var n = b.time / 80 > 10 ? 100 : b.time / 80;
+                var n = b.time / 800 > 100 ? 100 : b.time / 800;
                 this.speed = Math.random() * (n - 1) + 5,
                 this.speed = this.speed < .5 ? Math.random() * .5 + .5 : this.speed,
                 this.speed = this.speed > this.maxSpeed ? this.maxSpeed : this.speed
@@ -405,7 +405,7 @@
             bgScroll: function() {
                 var e = this.bgImg.height,
                     t = this.bgImg.width;
-                this.bgScrollTime += 12 + ((this.time + this.time * .9) / 1e3 > roadLevel ? 20 : (this.time + this.time * .9) / 5e3),
+                this.bgScrollTime += 12 + ((this.time + this.time * .9) / 1e3 > roadLevel ? 2 : (this.time + this.time * .9) / 5e3),
                 this.bgScrollTime > e && (this.bgScrollTime = 0),
                 s.drawImage(this.bgImg, 0, this.bgScrollTime - e, t, e),
                 s.drawImage(this.bgImg, 0, this.bgScrollTime, t, e),

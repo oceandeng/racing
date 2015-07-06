@@ -96,7 +96,7 @@
         leave: function(e) {},
         update: function(e, t) {},
         render: function(e, t, n) {}
-    }, 
+    },
     r.extend = function(e, t) {
         var n = function(e) {
                 for (var t in e) this[t] = e[t]
@@ -108,12 +108,12 @@
             for (var s in i) r[s] = i[s]
         }
         for (var s in e) r[s] = e[s];
-        return r.constructor = n, 
-        n.$super = i, 
-        n.superclass = t || null, 
-        n.extend = this.extend, 
+        return r.constructor = n,
+        n.$super = i,
+        n.superclass = t || null,
+        n.extend = this.extend,
         n
-    }, 
-    i.extend = n, 
+    },
+    i.extend = n,
     s.extend = n
 })(this);
