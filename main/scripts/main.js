@@ -45,7 +45,6 @@
                 height: c,
                 width: l
             });
-
         }
         R.loadImage(h.loadImg, t), 
         n();
