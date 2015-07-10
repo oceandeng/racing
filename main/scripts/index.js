@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-07-09 15:08:54
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-07-10 17:22:03
+* @Last Modified time: 2015-07-10 18:35:08
 */
 
 'use strict';
@@ -145,12 +145,7 @@ $(function(){
 });
 
 $(function(){
-	var options = {
-	  useEasing : true, 
-	  useGrouping : true, 
-	  separator : ',', 
-	  decimal : '.' 
-	}
-	var demo = new CountUp("scoreNum", 0, 660, 0, 2, options);
+
+	var demo = new CountUp("scoreNum", 0, 660, 0, 2);
 	demo.start();
 })
