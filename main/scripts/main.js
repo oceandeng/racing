@@ -3,6 +3,7 @@
 // 锁APP屏
 *****************************************************************/
     document.addEventListener('touchmove', function (e){e.preventDefault()}, false);
+    document.addEventListener('touchstart', function (e){e.preventDefault()}, false);
 
 /****************************************************************
 // 游戏开始
@@ -46,7 +47,7 @@
                 width: l
             });
         }
-        R.loadImage(h.loadImg, t), 
+        R.loadImage(h.loadImg, t),
         n();
         var r = e(i).parent();
         e(window).on("resize", n)
@@ -62,7 +63,7 @@
         a = e(window).height(),
         f = "ontouchend" in document,
         roadLevel = 1,
-        gameCount = 120,
+        gameCount = 60,
         l,
         c,
         h = {
@@ -160,7 +161,9 @@
                 this.height = this.width / this.model.width * this.model.height,
                 this.x = Math.random() * (l - this.width),
                 this.y = -this.height;
-                var n = b.time / 800 > 100 ? 100 : b.time / 800;
+                var n = b.time > 2475 ? 100 : b.time/800 ;
+                // var n = b.time > 2750 ? 100 : b.time > 1650 ? 50 : b.time/800 ;
+                // var n = b.time / 800 > 100 ? 100 : b.time / 800;
                 this.speed = Math.random() * (n - 1) + 5,
                 this.speed = this.speed < .5 ? Math.random() * .5 + .5 : this.speed,
                 this.speed = this.speed > this.maxSpeed ? this.maxSpeed : this.speed
@@ -185,12 +188,16 @@
                 if (b.time % 30 != 0) return;
                 i == 36 && (i = 0),
                 i++;
-                switch (!0) {
-                    case i % Math.floor(Math.random() * 3) == 0:
-                        n.planes.push(t(2));
-                        break;
-                    default:
-                        n.planes.push(t(1))
+                if(i <= 3){
+                    n.planes.push(t(1));
+                }else{
+                    switch (!0) {
+                        case i % Math.floor(Math.random() * 3) == 0:
+                            n.planes.push(t(2));
+                            break;
+                        default:
+                            n.planes.push(t(1))
+                    }                  
                 }
             };
             return n.scrolling = function() {
@@ -214,13 +221,14 @@
                     // i = gril 图片
                     i.show(),
                     e(i) && (i.type == "1" ? m.showheart() : b.stop(), i.die()),
+                    // e(i) && (i.type == "1" ? m.showheart() : m.downheart(), i.die()),
                     i.y = i.y + i.speed;
                 }
             }, n
         }(),
 /****************************************************************
 // 倒计时模块 countDown
-*****************************************************************/      
+*****************************************************************/
         countDown = function(){
             var timer = null;
             var count = {
@@ -261,6 +269,12 @@
                 setTimeout(function() {
                     e(".heart").removeClass("hearthot")
                 }, 200)
+            },
+            t.downheart = function(){
+               e(".heart").removeClass("heartdown").addClass("heartdown"), 
+               setTimeout(function(){
+                    e(".heart").removeClass("heartdown");
+               }, 200)
             },
             t.show = function() {
                 e(".score-wrap").show()
@@ -382,6 +396,7 @@
             time: 0,
             bgImg: R.createImage("images/road.png"),
             bgScrollTime: 0,
+            speed: 0,
             gameTime : gameCount,
             initGraphicContext: function() {
                 this.canvas = document.getElementById("stage"),
@@ -404,7 +419,12 @@
             bgScroll: function() {
                 var e = this.bgImg.height,
                     t = this.bgImg.width;
-                this.bgScrollTime += 12 + ((this.time + this.time * .9) / 1e3 > roadLevel ? 2 : (this.time + this.time * .9) / 5e3),
+                
+                 this.speed = this.time > 2475 ? 20 : this.time > 1100 ? 8 : 0;
+
+                // this.bgScrollTime += 12 + ((this.time + this.time * .9) / 1e3 > 20 ? 20 : (this.time + this.time * .9) / 1e3),
+
+                this.bgScrollTime += 12 + this.speed,
                 this.bgScrollTime > e && (this.bgScrollTime = 0),
                 s.drawImage(this.bgImg, 0, this.bgScrollTime - e, t, e),
                 s.drawImage(this.bgImg, 0, this.bgScrollTime, t, e),

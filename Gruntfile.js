@@ -152,7 +152,8 @@ module.exports = function (grunt) {
     // Compiles Sass to CSS and generates necessary files if requested
     sass: {
       options: {
-        loadPath: 'bower_components'
+        loadPath: 'bower_components',
+        style: 'compressed'
       },
       dist: {
         files: [{
@@ -350,7 +351,7 @@ module.exports = function (grunt) {
       dist: [
         'sass',
         'copy:styles',
-        'imagemin',
+        // 'imagemin',
         'svgmin'
       ]
     }
@@ -402,12 +403,12 @@ module.exports = function (grunt) {
     'concurrent:dist',
     'autoprefixer',
     'concat',
-    'cssmin',
+    // 'cssmin',
     'uglify',
     'copy:dist',
     'rev',
     'usemin',
-    'htmlmin'
+    // 'htmlmin'
   ]);
 
   grunt.registerTask('default', [
