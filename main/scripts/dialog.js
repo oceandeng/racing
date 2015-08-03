@@ -88,6 +88,8 @@
         this.config_close_img = o.closeImg;
         this.config_close_img_w = o.closeBtnW || "40px";
         this.config_close_img_h = o.closeBtnH || "40px";
+        this.config_close_top = o.closeTop || "5px";
+        this.config_close_right = o.closeRight || "10px";
         this.config_position = o.position || "";
         this.config_top = o.top || "";
         this.config_right = o.right || "";
@@ -100,7 +102,8 @@
         this.config_elem_clone = D.getElementById(this.config_id).cloneNode(true);
         this.config_elem_parent = D.getElementById(this.config_id).parentNode;
         this.config_con_style = {
-                'background': '#fff',
+                'background': 'rgba(255, 170, 20, 0.95)',
+                // 'background': '#fff',
                 'width': o.width,
                 'height': o.height,
                 'margin': '0 auto',
@@ -285,8 +288,8 @@
         if(this.closeBtn){
             setStyle(this.closeBtn, {
                 'position': 'absolute',
-                'top': -parseInt(this.config_close_img_w) / 2 + "px",
-                'right': -parseInt(this.config_close_img_h) / 2 + "px",
+                'top': this.config_close_top,
+                'right': this.config_close_right,
                 'z-index': 9
             })
         }
@@ -385,10 +388,18 @@
             that = this;
         for (var i = 0, l = elems.length; i < l; i++) {
             if (elems[i].getAttribute("data-dialog-close") != null) {
-                elems[i].onclick = function() {
+                // elems[i].onclick = function() {
+                //     that.close();
+                //     return false;
+                // };
+                // $(elems[i]).on('tap', function() {
+                //     that.close();
+                //     return false;
+                // });
+                elems[i].addEventListener('touchend', function(){
                     that.close();
-                    return false;
-                };
+                    return false;  
+                }, false);
             }
             if (elems[i].getAttribute("data-dialog-submit") != null) {
                 elems[i].onclick = function() {

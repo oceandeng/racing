@@ -11,114 +11,125 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>卡车追妹子</title>
+<style>
+.webapp-loading{z-index: 999; width:100%; height:100%; background: #fff; position: absolute;}
+.newloading-ptxt { text-align:center; font-size:14px;}
+
+.spinner {
+  margin: 40% auto 20px auto;
+  width: 50px;
+  height: 60px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.spinner > div {
+  background-color: #666;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+   
+  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+  animation: stretchdelay 1.2s infinite ease-in-out;
+}
+ 
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+ 
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+ 
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+ 
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+ 
+@-webkit-keyframes stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) } 
+  20% { -webkit-transform: scaleY(1.0) }
+}
+ 
+@keyframes stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
+</style>
 <!-- build:css(.tmp) styles/main.css -->
 <link rel="stylesheet" href="styles/main.css">
 <!-- endbuild -->
 <style>
-	h1{
-		text-align: center;
-		margin: 0;
-		padding-top: 100px;
+	#wrapper{
+		background: #131313;
 	}
-
-	#beginbtn{
-		background: #333;
-		display: block;
-		width: 100%;
-		height: 50px;
-		line-height: 50px;
-		text-align: center;
-		color: #fff;
-		z-index: -1;
-		position: fixed;
-		bottom: 0;
+	html,body{
+		height: 100%;
+		background: #131313
 	}
-	#ranking{text-align: center}
 </style>
 <script>
-	var globalConfig = {
-		
-	}
+  var gConfig = {
+    // path: "__PUBLIC__/",
+    path: window.location.origin + '/',
+    sApi: "",     // 游戏 ajax 请求地址
+    gameScore: 122,
+    openId : ""
+  }
 </script>
 </head>
 <body>
-<span id="beginbtn" data-href="game.html">开始游戏</span>
-<article id="wrapper">
-	<section id="scroller">
-
+<div class="webapp-loading">
+	<figure class="newloading-logo">
+		<figcaption class="newringlogo-box">
+			<div class="spinner">
+			  <div class="rect1"></div>
+			  <div class="rect2"></div>
+			  <div class="rect3"></div>
+			  <div class="rect4"></div>
+			  <div class="rect5"></div>
+			</div>
+			<div class="newloading-ptxt">100%</div>
+		</figcaption>
+	</figure>
+</div>
+<article>
 		<header>
-		    <span id="how-btn" class="top-btn">如何<br>兑换</span>
-		    <span id="rule-btn" class="top-btn">活动<br>规则</span>
+		    <span id="how-btn" class="top-btn"><img src="images/how-btn.png"></span>
+		    <span id="rule-btn" class="top-btn"><img src="images/rule-btn.png"></span>
 		</header>
-
-		<section id="score">   
-		    <h1>卡车追妹子</h1>
-		    <p>我的排名3，已获 <span id="scoreNum">0</span> 个徽章</p>
-			<p id="ranking">点击查看排行榜＞</p>
-		    <canvas id="prizebar">
-		        Your browser does not have support for canvas.
-		    </canvas>
-			
+		<section class="score-con">
+			<div class="app-main-img">
+				<img src="images/app-main-img.png" alt="">
+			</div>
+			<div class="app-progress">
+				<img src="images/app-progress.png" alt="">
+			</div>
+			<p class="app-tips">分享到微信就可以玩游戏哟</p>
+			<div id="appShare" class="app-share button" data-href="#">
+				分享到微信
+			</div>
 		</section>
-
-		<section id="begin">
-		</section>
-
-		<section id="container">
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-			<p>我的站位文字</p>	
-		</section>
-
-	</section>
 </article>
+
+<!-- 活动规则 -->
 <section class="rulebox">
 	<div id="rulebox">
 		<div id="scrollerone">
 		  <div class="rulecon">
-		    <h2>活动规则：</h2>
+		    <h2>活动规则</h2>
 		    <p>1、2015年X月X日-X月X日，为活动时间，在活动时间内，可以通过玩开卡车追妹子的游戏，记录追到妹子的数量，不同数量的妹子可以兑换价值不等的加油券</p>
 		    <p>2、兑换说明<br>
 				<ul>
@@ -137,12 +148,14 @@
 		</div>
 	</div>
 </section>
+<!-- 活动规则 -->
 
+<!-- 如何兑换 -->
 <section class="howbox">
 	<div id="howbox">
 		<div id="scrollertwo">
 		  <div class="howcon">
-		    <h2>如何兑换：</h2>
+		    <h2>如何兑换</h2>
 		    <p>1、活动期间，每个手机号仅限领一张100元加油券；</p>
 		    <p>2、加油券为充值抵用券，在车旺加油卡充值满1000元可用，充值减加油券部分还可享受相应返利，举例说明：比如您需充值1000元，使用100元加油券后，则实付900元即可，900元还可享受相应返利；</p>
 		    <p>3、用户须在领到加油券7日内激活，过期无效；券激活后须在15日内使用，过期无效；</p>
@@ -152,37 +165,22 @@
 		</div>
 	</div>
 </section>
+<!-- 如何兑换 -->
 
-<section class="rankingbox">
-	<div id="rankingbox">
-		<div id="scrollerthr">
-			<div class="rankingcon">
-				<h2>排行榜</h2>
-				<p>1</p>		   
-				<p>2</p>		   
-				<p>3</p>		   
-				<p>4</p>		   
-				<p>5</p>		   
-				<p>6</p>		   
-				<p>7</p>		   
-				<p>8</p>		   
-				<p>9</p>		   
-				<p>10</p>		   
-				<p>11</p>		   
-				<p>12</p>		   
-				<p>13</p>		   
-				<p>14</p>		   
-				<p>15</p>		   
-				<p>16</p>		   
-				<p>17</p>		   
-			</div>
-			<div id="pullUp" class="ub ub-pc c-gra">  
-			<div class="pullUpIcon"></div>  
-			<div class="pullUpLabel">上拉显示更多...</div>  
-			</div>  
-		</div>
-	</div>
-</section>
+<!-- build:js scripts/loading.min.js -->
+<script src='scripts/loading.js'></script>
+<!-- endbuild -->
+<script>
+	var loader = ImageLoader.getImageLoader("progress");
+
+	loader.add(gConfig.path + 'images/how-btn.png');
+	loader.add(gConfig.path + 'images/rule-btn.png');
+	loader.add(gConfig.path + 'images/score-con-bg.jpg');
+	loader.add(gConfig.path + 'images/app-main-img.png');
+	loader.add(gConfig.path + 'images/app-progress.png');
+
+	loader.load();	
+</script>
 
 <!-- build:js(.) scripts/vendor.js -->
 <!-- bower:js -->
@@ -190,17 +188,15 @@
 <!-- endbower -->
 <!-- endbuild -->
 
-<!-- build:js scripts/otools.min.js -->
+<!-- build:js scripts/app.otools.js -->
 <script src="scripts/event.js"></script>
 <script src="scripts/touch.js"></script>
 <script src="scripts/otools.js"></script>
-<script src="scripts/progressbar.js"></script>
 <script src="scripts/dialog.js"></script>
 <script src="scripts/iscroll-probe.js"></script>
-<script src="scripts/countUp.js"></script>
 <!-- endbuild -->
-<!-- build:js scripts/index.min.js -->
-<script src="scripts/index.js"></script>
+<!-- build:js scripts/app.min.js -->
+<script src="scripts/app.js"></script>
 <!-- endbuild -->
 
 </body>

@@ -10,7 +10,7 @@
 *****************************************************************/
     function t() {
         function t() {
-            var e = R.createImage("images/road.png"),
+            var e = R.createImage(gConfig.path + "images/road.png"),
                 t = e.width,
                 n = e.height;
             s.drawImage(e, 0, 0, t, n)
@@ -67,39 +67,33 @@
         l,
         c,
         h = {
-            loadImg: ["images/road.png", "images/start.png"],
-            gameImg: ["images/car-two.png", "images/car-one.png", "images/gril.png", "images/lady-boy.png", "images/score-bg.png", "images/heart.png"]
+            loadImg: [gConfig.path + "images/road.png", gConfig.path + "images/start.png"],
+            gameImg: [gConfig.path + "images/car-two.png", gConfig.path + "images/car-one.png", gConfig.path + "images/gril.png", gConfig.path + "images/lady-boy.png", gConfig.path + "images/score-bg.png", gConfig.path + "images/heart.png"]
         },
 /****************************************************************
 // 设置 COOKIE -- P
 *****************************************************************/
-        // p = function() {
-        //     function t() {
-        //         var t = Math.random(),
-        //             n = Math.random(),
-        //             r = Math.random(),
-        //             i = (new Date).getTime();
-        //         return e.md5(i + "" + t * n * r)
-        //     }
+        p = function() {
 
-        //     function n() {
-        //         var n;
-        //         try {
-        //             return n = e.cookie.get(s), n ? (r(n, !1, !0, !0), n) : (n = localStorage.getItem(i), n ? (r(n, !0, !1, !0), n) : (n = sessionStorage.getItem(i), n ? (r(n, !0, !0, !1), n) : (n = t(), r(n, !0, !0, !0), n)))
-        //         } catch (o) {
-        //             return n = t(), r(n, !0, !0, !0), n
-        //         }
-        //     }
-
-        //     function r(t, n, r, o) {
-        //         n && e.cookie.set(s, t, {
-        //             expires: 31536e6
-        //         }), r && localStorage.setItem(i, t), o && sessionStorage.setItem(i, t)
-        //     }
-        //     var i = "carmeizi/user",
-        //         s = "carmeizi";
-        //     return n()
-        // }(),
+            var cookieFn = {
+                // TOOLS.setcookie(VDZ_COOKIE_PRE + SITE_ID + "_viewstack", g, 30000, null, "", null)
+                setCookie: function(cookieName, cookieValue, seconds, path, domain, secure){
+                    var expires = new Date();
+                    expires.setTime(expires.getTime() + seconds);
+                    document.cookie = escape(cookieName) + '=' + escape(cookieValue)
+                            + (expires ? '; expires=' + expires.toGMTString() : '')
+                            + (path ? '; path=' + path : '; path=/')
+                            + (domain ? '; domain=' + domain : '')
+                            + (secure ? '; secure' : '');
+                },
+                getCookie: function(name){
+                    var cookie_start = document.cookie.indexOf(name);
+                    var cookie_end = document.cookie.indexOf(";", cookie_start);
+                    return cookie_start == -1 ? '' : unescape(document.cookie.substring(cookie_start + name.length + 1, (cookie_end > cookie_start ? cookie_end : document.cookie.length)));
+                }
+            }
+            return cookieFn
+        }(),
 /****************************************************************
 // 绘制汽车模块 -- D
 *****************************************************************/
@@ -126,8 +120,8 @@
                 n.lastX,
                 n.lastY,
                 n.status = !0,
-                n.model = R.createImage("images/car-two.png"),
-                n.model2 = R.createImage("images/car-one.png"),
+                n.model = R.createImage(gConfig.path + "images/car-two.png"),
+                n.model2 = R.createImage(gConfig.path + "images/car-one.png"),
                 n.width = l / 480 * n.model.width,
                 n.height = n.width / n.model.width * n.model.height
             },
@@ -154,7 +148,7 @@
                         this.score = 0,
                         this.maxSpeed = 25
                 }
-                var t = ["images/gril.png", "images/lady-boy.png"];
+                var t = [gConfig.path + "images/gril.png", gConfig.path + "images/lady-boy.png"];
                 this.modelImg = t[this.type - 1],
                 this.model = R.createImage(this.modelImg),
                 this.width = l / 480 * this.model.width,
@@ -277,7 +271,8 @@
                }, 200)
             },
             t.show = function() {
-                e(".score-wrap").show()
+                e(".score-wrap").show();
+                e(".count-down").show();
             },
             t
         }(),
@@ -286,92 +281,129 @@
 *****************************************************************/
         g = function() {
             var t = e("#resultPanel"),
+                u = e("#replay"),
                 n = function() {
                     var n = "click";
                     f && (n = "touchstart"),
-                    t.find(".replay").on(n, function() {
+                    t.find("#enter").on(n, function(){
+                        location.href = $(this).attr('data-href');
+                    }),
+                    u.find(".replay").on(n, function() {
+                        u.hide(),
                         b.init(),
                         b.start()
-                    }),
-                    t.find(".share").on(n, function() {
-                        t.find(".weixin-share").show().one(n, function() {
-                            e(this).hide()
-                        }),
-                        gConfig.wxData.desc = e(this).data("desc").replace(/\{x\}/ig, b.score) || ""
-                    }),
-                    t.find(".lottery").on(n, function() {
-                        y.open()
                     })
+                    // t.find(".share").on(n, function() {
+                    //     gConfig.wxData.desc = e(this).data("desc").replace(/\{x\}/ig, b.score) || ""
+                    // })
+                    // t.find(".lottery").on(n, function() {
+                    //     y.open()
+                    // })
                 },
                 r = {
                     show: function() {
-                        t.show(),
                         r.showScore()
                     },
                     hide: function() {
-                        t.hide(),
-                        gConfig.wxData.desc = ""
+                        t.hide()
                     },
                     showScore: function() {
-                        var e = 1,
-                            n = b.score;
-                        n === 0 ? e = 1 : n < 10 ? e = 2 : e = 3;
-                        var r = t.find("#scoreBoard").show().find(".score-" + e);
-                        y.hide(),
-                        t.find("#scoreBoard .score-result").hide(),
-                        r.show(),
-                        e < 3 ? t.find("#scoreBoard .rank").show() : (t.find("#scoreBoard .rank").hide(), y.preLoad()),
-                        r.find(".tips span").html(n)
-                    },
-                    wxHide: function() {
-                        t.find(".weixin-share").hide()
+                        // var e = 1;
+                        var n = b.score;
+                        // n === 0 ? e = 1 : n < 10 ? e = 2 : e = 3;
+                        var r = t.find("#scoreBoard");
+                        // y.hide(),
+                        // t.find("#scoreBoard .score-result").hide(),
+                        // r.show(),
+                        // e < 3 ? t.find("#scoreBoard .rank").show() : (t.find("#scoreBoard .rank").hide(), y.preLoad()),
+                        // y.preLoad();
+                        e.ajax({
+                            type: "POST",
+                            url: gConfig.sApi,
+                            timeout: 5e4,
+                            dataType: "json",
+                            data: {
+                                // mid: p,
+                                score: n,
+                                openid: gConfig.openId
+                            },
+                            beforeSend: function(){
+                                ajaxBFn();
+                            },
+                            success: function(res) {
+                                if(res.code == 0){
+                                    p.setCookie('num', res.playnum, 30000, null, "", null);
+                                    t.show(),
+                                    t.find('#enter').attr('data-href', res.url);
+                                }else{
+                                    oTools.alertmess(res.msg);
+                                    setTimeout(function(){
+                                        location.href = res.url;
+                                    }, 2000);
+                                }
+                                ajaxSFn(res);
+                            },
+                            error: function() {
+                                u.show(),
+                                ajaxEFn();
+                            },
+                            complete: function(){
+                                ajaxCFn();
+                                // p.setCookie('num', gConfig.i++, 30000, null, "", null);
+                            }
+                        })
+                        r.find(".tips span").html(n);
                     }
+                    // wxHide: function() {
+                    //     t.find(".weixin-share").hide()
+                    // }
                 };
             return n(), r
-        }(),
+        }();
 /****************************************************************
 // 游戏奖励页面模块 -- Y
 *****************************************************************/
-        y = function() {
-            var t = null,
-                n = e("#prize"),
-                r, 
-                i = {
-                    preLoad: function() {
-                        e.ajax({
-                            type: "GET",
-                            url: gConfig.sApi,
-                            timeout: 2e4,
-                            dataType: "jsonp",
-                            jsonp: "jscallback",
-                            data: {
-                                // mid: p,
-                                active: gConfig.activeId
-                            },
-                            success: function(e) {
-                                t = e.data || {}
-                            },
-                            error: function() {
-                                t = {}
-                            }
-                        })
-                    },
-                    open: function() {
-                        var e = 100,
-                            n = setInterval(function() {
-                                if (t || !e) {
-                                    e--, clearInterval(n);
-                                    try {
-                                        t.drawtype && t.info1 ? i.showPrize(t.drawtype, t.info1) : i.showDefault(parseInt(Math.random() * 1002, 10) % 2 + 1)
-                                    } catch (r) {
-                                        i.showDefault(parseInt(Math.random() * 1002, 10) % 2 + 1)
-                                    }
-                                }
-                            }, 10)
-                    },
-                    hide: function() {
-                        n.hide()
-                    },
+        // y = function() {
+        //     var t = null,
+        //         n = e("#prize"),
+        //         r,
+        //         i = {
+                    // preLoad: function() {
+                    //     e.ajax({
+                    //         type: "GET",
+                    //         url: gConfig.sApi,
+                    //         timeout: 2e4,
+                    //         dataType: "json",
+                    //         data: {
+                    //             // mid: p,
+                    //             active: gConfig.activeId
+                    //         },
+                    //         success: function(response) {
+                    //             // t = e.data || {}
+                    //             ajaxSFn(response);
+                    //         },
+                    //         error: function() {
+                    //             // t = {}
+                    //             ajaxEFn();
+                    //         }
+                    //     })
+                    // },
+                    // open: function() {
+                    //     var e = 100,
+                    //         n = setInterval(function() {
+                    //             if (t || !e) {
+                    //                 e--, clearInterval(n);
+                    //                 try {
+                    //                     t.drawtype && t.info1 ? i.showPrize(t.drawtype, t.info1) : i.showDefault(parseInt(Math.random() * 1002, 10) % 2 + 1)
+                    //                 } catch (r) {
+                    //                     i.showDefault(parseInt(Math.random() * 1002, 10) % 2 + 1)
+                    //                 }
+                    //             }
+                    //         }, 10)
+                    // },
+                    // hide: function() {
+                    //     n.hide()
+                    // },
                     // showDefault: function(t) {
                     //     var r = ["images/safety.png", "images/taohua.png"],
                     //         i;
@@ -383,10 +415,10 @@
                     //         u;
                     //     t = (3 - t) % s.length, n.show().find(".prize-default").hide(), e("#prizeResult").show().find(".prize-content").find("p span").html(o[t]).end().find("img").attr("src", s[t]).end().find(".yards span").html(i), e("#prizeResult .scroll-rst").removeAttr("style"), r ? r.scrollTo(0, 0) : r = new IScroll("#prizeResult")
                     // }
-                };
-            return i
-        }();
-    window.prize = y;
+        //         };
+        //     return i
+        // }();
+    // window.prize = y;
 /****************************************************************
 // 公路对象 -- B
 *****************************************************************/
@@ -394,7 +426,7 @@
             FPS: 60,
             score: 0,
             time: 0,
-            bgImg: R.createImage("images/road.png"),
+            bgImg: R.createImage(gConfig.path + "images/road.png"),
             bgScrollTime: 0,
             speed: 0,
             gameTime : gameCount,
@@ -435,7 +467,8 @@
                 setTimeout(function() {
                     g.show(),
                     e("#gameoverPanel").hide()
-                }, 1e3)
+                }, 1e3),
+                b.gameTime = gameCount
             },
             onTimeout: function() {
                 e("#timeoutPanel").show(),
@@ -502,4 +535,9 @@
         w[t.id] = t
     })(),
     n()
+
+    // if(p.getCookie('num') && p.getCookie('num') < 1){
+    //         location.href = gConfig.localPath;
+    // }
+
 })(Zepto);

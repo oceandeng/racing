@@ -403,7 +403,7 @@ module.exports = function (grunt) {
     'concurrent:dist',
     'autoprefixer',
     'concat',
-    // 'cssmin',
+    'cssmin',
     'uglify',
     'copy:dist',
     'rev',
