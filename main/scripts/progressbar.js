@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-07-06 16:09:56
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-07-31 17:55:41
+* @Last Modified time: 2015-08-05 10:12:05
 */
 
 'use strict';
@@ -27,9 +27,11 @@ function progressbar(end){
 
   var winWI = document.body.clientWidth;
   var fSize = '24px';
+  var mOffset = 120;
 
   if(winWI <= 360){
     fSize = '20px';
+    mOffset = 90;
   }
 
   var mark = new Image(),
@@ -65,9 +67,9 @@ function progressbar(end){
     endTarget = parseInt((fiv / 2) * 5 );
     target = beforeT + (end - 1999) * ((endTarget - beforeT) / (9999 - 1999));
   }else if(end == 10000){
-    target = parseInt((fiv / 2) * 5 ) ;
+    target = parseInt((fiv / 2) * 5 + 1 ) ;
   }else{
-    target = parseInt((fiv / 2) * 5 ) ;
+    target = parseInt((fiv / 2) * 5 + 1 ) ;
     // var beforeT = parseInt((fiv / 2) * 5 ) - 18;
     // endTarget = parseInt((fiv / 2) * 5 );
     // target = beforeT + (end - 9999) * ((endTarget - beforeT) / (100000 - 9999));
@@ -210,9 +212,9 @@ function progressbar(end){
       }else if(end > 10000){
         ctx.save();
         ctx.fillStyle = "#ff9000";
-        ctx.drawImage(mark, thousand - 90 - 64, 0, 64, 91);
-        ctx.fillText('已追到', thousand - 90, 40);
-        ctx.fillText('10000以上个妹子', thousand - 90, 70);
+        ctx.drawImage(mark, thousand - mOffset - 64, 0, 64, 91);
+        ctx.fillText('已追到', thousand - mOffset, 40);
+        ctx.fillText('10000以上个妹子', thousand - mOffset, 70);
         ctx.restore();  
       }
     }

@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-07-09 15:08:54
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-07-27 11:08:05
+* @Last Modified time: 2015-08-05 15:42:56
 */
 
 'use strict';
@@ -103,6 +103,10 @@ ajaxUpLoad();
 			'closeRight': '0px',
 			'animation':'animated bounceIn',
 			'onReady': function(){
+				rankp = 1;
+				if(pullUp == true){
+					$('#pullUp').show();
+				};
 				var myScroll;
 
 				(function(){

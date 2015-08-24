@@ -170,16 +170,18 @@ header{
             }
             .rank-name{
                 @include line-height(40px);
+                width:100px;
+                float: left;
 
                 p{
                     margin: 0;
                     width:100px;
                     text-align: left;
                     padding: 0 0 0 10px;
-                    white-space:nowrap; 
-                    text-overflow:ellipsis; 
-                    -o-text-overflow:ellipsis; 
-                    -moz-binding:url('ellipsis.xml#ellipsis'); 
+                    white-space:nowrap;
+                    text-overflow:ellipsis;
+                    -o-text-overflow:ellipsis;
+                    -moz-binding:url('ellipsis.xml#ellipsis');
                     overflow:hidden;
                 }
             }
@@ -389,6 +391,10 @@ header{
                 span{
                     font-size: 12px;
                 }
+            }
+            .tips{
+                color: #333;
+                font-weight: 600;
             }
         }
         .suc-button{
