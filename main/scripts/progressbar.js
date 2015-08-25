@@ -2,7 +2,7 @@
 * @Author: ocean
 * @Date:   2015-07-06 16:09:56
 * @Last Modified by:   ocean
-* @Last Modified time: 2015-08-05 10:12:05
+* @Last Modified time: 2015-08-25 12:55:31
 */
 
 'use strict';
@@ -81,7 +81,7 @@ function progressbar(end){
     ctx.fillRect(0, 100, w, 36);
   }
 
-  function Progressbar(end){
+  function ProgressbarClass(end){
     var self = this;
 
     this.widths = 8;
@@ -91,7 +91,7 @@ function progressbar(end){
     }
   }
 
-  Progressbar.prototype.draw = function(){
+  ProgressbarClass.prototype.draw = function(){
       ctx.fillStyle = "#010101";
       ctx.fillRect(6, 106, w - 6 * 2, 24);
 
@@ -116,7 +116,7 @@ function progressbar(end){
       this.money();
     }
     // 绘制文字
-    Progressbar.prototype.word = function(){
+    ProgressbarClass.prototype.word = function(){
       ctx.font = fSize + " Microsoft YaHei";
       if(end >= 0 && end < 20){
         ctx.save();
@@ -220,7 +220,7 @@ function progressbar(end){
     }
 
     // 绘制钱标
-    Progressbar.prototype.money = function(){
+    ProgressbarClass.prototype.money = function(){
       if(end >= 0 && end < 20){
         ctx.save();
         ctx.font = "20px Microsoft YaHei";
@@ -359,7 +359,7 @@ function progressbar(end){
       }      
     }
 
-  var bar = new Progressbar(end);
+  var bar = new ProgressbarClass(end);
   
   reset();
   bar.draw();
