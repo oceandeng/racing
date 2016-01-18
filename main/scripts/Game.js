@@ -1,19 +1,20 @@
 "use strict";
 
 (function(e, t) {
+
     function n(e) {
-        return r.extend(e, this)
+        return Best.extend(e, this)
     }
-    var r = e.Best = e.Best || {},
-        i = r.Game = function(e) {
+    var Best = e.Best = e.Best || {},
+        i = Best.Game = function(e) {
             for (var t in e) this[t] = e[t]
         };
 
     i.prototype = {
         constructor: i,
         id: null,
-        width: 600,
-        height: 400,
+        width: 0,
+        height: 0,
         FPS: 60,
         caption: "",
         context: null,
@@ -27,7 +28,7 @@
                 last: 0,
                 step: Math.round(1e3 / this.FPS)
             },
-            this.initGraphicContext(), 
+            this.initGraphicContext(),
             this.onInit && this.onInit.apply(this, arguments)
         },
         initGraphicContext: function() {},
@@ -85,7 +86,7 @@
         onTimeout: null
     };
 
-    var s = r.Scene = function(e) {
+    var s = Best.Scene = function(e) {
         for (var t in e) this[t] = e[t]
     };
     s.prototype = {
@@ -97,18 +98,18 @@
         update: function(e, t) {},
         render: function(e, t, n) {}
     },
-    r.extend = function(e, t) {
+    Best.extend = function(e, t) {
         var n = function(e) {
                 for (var t in e) this[t] = e[t]
             },
-            r = n.prototype,
+            Best = n.prototype,
             i;
         if (t) {
             i = t.prototype;
-            for (var s in i) r[s] = i[s]
+            for (var s in i) Best[s] = i[s]
         }
-        for (var s in e) r[s] = e[s];
-        return r.constructor = n,
+        for (var s in e) Best[s] = e[s];
+        return Best.constructor = n,
         n.$super = i,
         n.superclass = t || null,
         n.extend = this.extend,

@@ -8,22 +8,26 @@
 /****************************************************************
 // 游戏开始
 *****************************************************************/
-    function t() {
-        function t() {
-            var e = R.createImage(gConfig.path + "images/road.png"),
-                t = e.width,
-                n = e.height;
-            s.drawImage(e, 0, 0, t, n)
+    function start() {
+        function start() {
+            var roadImg = R.createImage(gConfig.path + "images/road.png"),
+                sw = e(window).width() * 2,
+                sh = e(window).height() * 2,
+                w = roadImg.width,
+                h = roadImg.height,
+                ch = sw / (w / h);
+
+            ctx.drawImage(roadImg, 0, 0, w, h, 0, 0, sw, ch);
         }
 
         function n() {
             e("#guidePanel").hide(),
-            b.init(),
-            b.start()
+            road.init(),
+            road.start()
         }
 
-        t(),
-        R.loadImage(h.gameImg, function() {
+        start(),
+        R.loadImage(source.gameImg, function() {
             e("#gamePanel").on("touchstart", function() {
                 n(),
                 n = function() {}
@@ -33,50 +37,49 @@
 /****************************************************************
 // 舞台全屏渲染 绘制公路和开始页面
 *****************************************************************/
-    function n() {
-        function n() {
-            var t = e(window).width(),
-                n = e(window).height();
+    function render() {
+        function render() {
+            var w = e(window).width(),
+                h = e(window).height();
 
-            c = n < 576 ? n : 576,
-            l = t < 320 ? t : 320,
-            // c = n,
-            // l = t,
-            e(i).attr({
-                height: c,
-                width: l
+            sw = w;
+            sh = h;
+            e(canvas).css({
+                width: sw,
+                height: sh
+            }).attr({
+                width: sw * 2,
+                height: sh * 2
             });
         }
-        R.loadImage(h.loadImg, t),
-        n();
-        var r = e(i).parent();
-        e(window).on("resize", n)
+        R.loadImage(source.loadImg, start),
+        render();
+        var r = e(canvas).parent();
+        e(window).on("resize", render)
     }
 /****************************************************************
-// 定义初始变量  及模块功能
+// 定义初始变量  及模块功能 Touch Support
 *****************************************************************/
     var r = {},
-        i = document.getElementById("stage"),
-        s = i.getContext("2d"),
-        o = document.getElementById("score"),
-        u = e(window).width(),
-        a = e(window).height(),
-        f = "ontouchend" in document,
+        canvas = document.getElementById("stage"),
+        ctx = canvas.getContext("2d"),
+        scoreDom = document.getElementById("score"),
+        sw = e(window).width(),
+        sh = e(window).height(),
+        supTouch = "ontouchend" in document,
         roadLevel = 1,
         gameCount = 60,
-        l,
-        c,
-        h = {
+        source = {
             loadImg: [gConfig.path + "images/road.png", gConfig.path + "images/start.png"],
             gameImg: [gConfig.path + "images/car-two.png", gConfig.path + "images/car-one.png", gConfig.path + "images/gril.png", gConfig.path + "images/lady-boy.png", gConfig.path + "images/score-bg.png", gConfig.path + "images/heart.png"]
         },
 /****************************************************************
-// 设置 COOKIE -- P
+// 设置 COOKIE -- cookiefn
 *****************************************************************/
-        p = function() {
+        cookiefn = function() {
 
             var cookieFn = {
-                // TOOLS.setcookie(VDZ_COOKIE_PRE + SITE_ID + "_viewstack", g, 30000, null, "", null)
+                // TOOLS.setcookie(VDZ_COOKIE_PRE + SITE_ID + "_viewstack", gameover, 30000, null, "", null)
                 setCookie: function(cookieName, cookieValue, seconds, path, domain, secure){
                     var expires = new Date();
                     expires.setTime(expires.getTime() + seconds);
@@ -95,23 +98,23 @@
             return cookieFn
         }(),
 /****************************************************************
-// 绘制汽车模块 -- D
+// 绘制汽车模块 -- car
 *****************************************************************/
-        d = function() {
+        car = (function() {
             function e(e, t) {
                 n.lastX = n.x,
                 n.lastY = n.y,
                 n.x = e - n.width / 2,
                 n.y = t - n.height / 2,
-                n.x = n.x > l - n.width ? l - n.width : n.x,
+                n.x = n.x > sw - n.width ? sw - n.width : n.x,
                 n.x = n.x < 0 ? 0 : n.x,
-                n.y = n.y > c - n.height ? c - n.height : n.y,
+                n.y = n.y > sh - n.height ? sh - n.height : n.y,
                 n.y = n.y < 0 ? 0 : n.y
             }
 
             function t(e) {
                 if (!n.status) return;
-                s.drawImage(b.time % 20 > 15 ? n.model : n.model2, n.x, n.y, n.width, n.height)
+                ctx.drawImage(road.time % 20 > 15 ? n.model : n.model2, n.x * 2, n.y * 2, n.width * 2, n.height * 2)
             }
             var n = {};
             return n.init = function() {
@@ -122,17 +125,17 @@
                 n.status = !0,
                 n.model = R.createImage(gConfig.path + "images/car-two.png"),
                 n.model2 = R.createImage(gConfig.path + "images/car-one.png"),
-                n.width = l / 480 * n.model.width,
+                n.width = sw / 480 * n.model.width,
                 n.height = n.width / n.model.width * n.model.height
             },
             n.move = e,
             n.moving = t,
             n
-        }(),
+        })(),
 /****************************************************************
-// 障碍物模块  -- V
+// 障碍物模块  -- obstacle
 *****************************************************************/
-        v = function() {
+        obstacle = function() {
             function e(e) {
                 this.type = e,
                 this.height = 0,
@@ -151,13 +154,13 @@
                 var t = [gConfig.path + "images/gril.png", gConfig.path + "images/lady-boy.png"];
                 this.modelImg = t[this.type - 1],
                 this.model = R.createImage(this.modelImg),
-                this.width = l / 480 * this.model.width,
+                this.width = sw / 480 * this.model.width,
                 this.height = this.width / this.model.width * this.model.height,
-                this.x = Math.random() * (l - this.width),
+                this.x = Math.random() * (sw - this.width),
                 this.y = -this.height;
-                var n = b.time > 2475 ? 100 : b.time/800 ;
-                // var n = b.time > 2750 ? 100 : b.time > 1650 ? 50 : b.time/800 ;
-                // var n = b.time / 800 > 100 ? 100 : b.time / 800;
+                var n = road.time > 2475 ? 100 : road.time/800 ;
+                // var n = road.time > 2750 ? 100 : road.time > 1650 ? 50 : road.time/800 ;
+                // var n = road.time / 800 > 100 ? 100 : road.time / 800;
                 this.speed = Math.random() * (n - 1) + 5,
                 this.speed = this.speed < .5 ? Math.random() * .5 + .5 : this.speed,
                 this.speed = this.speed > this.maxSpeed ? this.maxSpeed : this.speed
@@ -171,22 +174,22 @@
                 i = n.planesNum = 0;
             n.planes,
             e.prototype.show = function() {
-                s.drawImage(this.model, this.x, this.y, this.width, this.height)
+                ctx.drawImage(this.model, this.x * 2, this.y * 2, this.width * 2, this.height * 2)
             },
             e.prototype.die = function() {
                 var e = this.type;
-                b.score += this.score,
+                road.score += this.score,
                 this.status = !1
             };
-            var o = n.addSome = function() {
-                if (b.time % 30 != 0) return;
+            var addSome = n.addSome = function() {
+                if (road.time % 30 != 0) return;
                 i == 36 && (i = 0),
                 i++;
                 if(i <= 3){
                     n.planes.push(t(1));
                 }else{
                     switch (!0) {
-                        case i % Math.floor(Math.random() * 3) == 0:
+                        case i % Math.floor(Math.random() * 9) == 0:
                             n.planes.push(t(2));
                             break;
                         default:
@@ -198,24 +201,24 @@
                 function e(e) {
                     var t = [e.x, e.y],
                         n = [e.x + e.width, e.y + e.height],
-                        r = [d.x + 16, d.y + 10],
-                        i = [d.x + d.width - 16, d.y + d.height - 26],
+                        r = [car.x + 16, car.y + 10],
+                        i = [car.x + car.width - 16, car.y + car.height - 26],
                         s = [Math.max(t[0], r[0]), Math.max(t[1], r[1])],
                         o = [Math.min(n[0], i[0]), Math.min(n[1], i[1])];
                     return s[0] < o[0] && s[1] < o[1] ? !0 : !1
                 }
-                o();
+                addSome();
                 var t = n.planes.length;
                 for (var r = t; r--;) {
                     var i = n.planes[r];
-                    if (i.y > c || i.status == 0) {
+                    if (i.y > sh || i.status == 0) {
                         n.planes.splice(r, 1);
                         continue
                     }
                     // i = gril 图片
                     i.show(),
-                    e(i) && (i.type == "1" ? m.showheart() : b.stop(), i.die()),
-                    // e(i) && (i.type == "1" ? m.showheart() : m.downheart(), i.die()),
+                    e(i) && (i.type == "1" ? scoreModel.showheart() : road.stop(), i.die()),
+                    // e(i) && (i.type == "1" ? scoreModel.showheart() : scoreModel.downheart(), i.die()),
                     i.y = i.y + i.speed;
                 }
             }, n
@@ -228,29 +231,29 @@
             var count = {
                 start: function(){
                     timer = setInterval(function(){
-                        b.gameTime -= 1;
-                        if(b.gameTime == 0){
-                            b.timeoutFn()
+                        road.gameTime -= 1;
+                        if(road.gameTime == 0){
+                            road.timeoutFn()
                         }
                     }, 1000);
                 },
                 doUpdate: function(){
-                    e('#time').html(b.gameTime)
+                    e('#time').html(road.gameTime)
                 },
                 clear: function(){
                     clearInterval(timer);
                 }
             }
             return count.init = function(){
-                b.gameTime = gameCount;
+                road.gameTime = gameCount;
                 this.clear();
             },
             count
         }(),
 /****************************************************************
-// 得分模块 -- M
+// 得分模块 -- score model
 *****************************************************************/
-        m = function() {
+        scoreModel = function() {
             var t = {};
             return t.format = function(e) {
                 return function(t, n) {
@@ -277,24 +280,24 @@
             t
         }(),
 /****************************************************************
-// 游戏结束页面模块  -- G
+// 游戏结束页面模块  -- gameover
 *****************************************************************/
-        g = function() {
+        gameover = function() {
             var t = e("#resultPanel"),
                 u = e("#replay"),
                 n = function() {
                     var n = "click";
-                    f && (n = "touchstart"),
+                    supTouch && (n = "touchstart"),
                     t.find("#enter").on(n, function(){
                         location.href = $(this).attr('data-href');
                     }),
                     u.find(".replay").on(n, function() {
                         u.hide(),
-                        b.init(),
-                        b.start()
+                        road.init(),
+                        road.start()
                     })
                     // t.find(".share").on(n, function() {
-                    //     gConfig.wxData.desc = e(this).data("desc").replace(/\{x\}/ig, b.score) || ""
+                    //     gConfig.wxData.desc = e(this).data("desc").replace(/\{x\}/ig, road.score) || ""
                     // })
                     // t.find(".lottery").on(n, function() {
                     //     y.open()
@@ -309,7 +312,7 @@
                     },
                     showScore: function() {
                         // var e = 1;
-                        var n = b.score;
+                        var n = road.score;
                         // n === 0 ? e = 1 : n < 10 ? e = 2 : e = 3;
                         var r = t.find("#scoreBoard");
                         // y.hide(),
@@ -323,7 +326,7 @@
                             timeout: 5e4,
                             dataType: "json",
                             data: {
-                                // mid: p,
+                                // mid: cookiefn,
                                 score: n,
                                 openid: gConfig.openId
                             },
@@ -332,7 +335,7 @@
                             },
                             success: function(res) {
                                 if(res.code == 0){
-                                    p.setCookie('num', res.playnum, 30000, null, "", null);
+                                    cookiefn.setCookie('num', res.playnum, 30000, null, "", null);
                                     t.show(),
                                     t.find('#enter').attr('data-href', res.url);
                                 }else{
@@ -349,7 +352,7 @@
                             },
                             complete: function(){
                                 ajaxCFn();
-                                // p.setCookie('num', gConfig.i++, 30000, null, "", null);
+                                // cookiefn.setCookie('num', gConfig.i++, 30000, null, "", null);
                             }
                         })
                         r.find(".tips span").html(n);
@@ -375,7 +378,7 @@
                     //         timeout: 2e4,
                     //         dataType: "json",
                     //         data: {
-                    //             // mid: p,
+                    //             // mid: cookiefn,
                     //             active: gConfig.activeId
                     //         },
                     //         success: function(response) {
@@ -413,16 +416,16 @@
                     //     var s = ["images/piao.png", "images/qi.png", "images/helmet.png"],
                     //         o = ["\u65b9\u7a0b\u5f0f\u5927\u5956\u8d5b\u95e8\u7968", "\u8d5b\u9053\u72c2\u98d9\u4f53\u9a8c\u7279\u6743","\u8d5b\u8f66\u6fc0\u60c5\u4f53\u9a8c\u8d44\u683c"],
                     //         u;
-                    //     t = (3 - t) % s.length, n.show().find(".prize-default").hide(), e("#prizeResult").show().find(".prize-content").find("p span").html(o[t]).end().find("img").attr("src", s[t]).end().find(".yards span").html(i), e("#prizeResult .scroll-rst").removeAttr("style"), r ? r.scrollTo(0, 0) : r = new IScroll("#prizeResult")
+                    //     t = (3 - t) % s.length, n.show().find(".prize-default").hide(), e("#prizeResult").show().find(".prize-content").find("cookiefn span").html(o[t]).end().find("img").attr("src", s[t]).end().find(".yards span").html(i), e("#prizeResult .scroll-rst").removeAttr("style"), r ? r.scrollTo(0, 0) : r = new IScroll("#prizeResult")
                     // }
         //         };
         //     return i
         // }();
     // window.prize = y;
 /****************************************************************
-// 公路对象 -- B
+// 公路对象 -- road
 *****************************************************************/
-    var b = new Best.Game({
+    var road = new Best.Game({
             FPS: 60,
             score: 0,
             time: 0,
@@ -435,7 +438,7 @@
                 this.context = this.canvas.getContext("2d")
             },
             onInit: function() {
-                d.init(),
+                car.init(),
                 countDown.init(),
                 countDown.start()
             },
@@ -449,31 +452,37 @@
                 return t
             },
             bgScroll: function() {
-                var e = this.bgImg.height,
-                    t = this.bgImg.width;
-                
-                 this.speed = this.time > 2475 ? 20 : this.time > 1100 ? 8 : 0;
+                var w = this.bgImg.width,
+                    h = this.bgImg.height,
+                    sw = e(window).width() * 2,
+                    sh = e(window).height() * 2;
+                    ch = sw / (w / h);
+
+                 this.speed = this.time > 2475 ? 40 : this.time > 1100 ? 36 : 10;
 
                 // this.bgScrollTime += 12 + ((this.time + this.time * .9) / 1e3 > 20 ? 20 : (this.time + this.time * .9) / 1e3),
 
-                this.bgScrollTime += 12 + this.speed,
-                this.bgScrollTime > e && (this.bgScrollTime = 0),
-                s.drawImage(this.bgImg, 0, this.bgScrollTime - e, t, e),
-                s.drawImage(this.bgImg, 0, this.bgScrollTime, t, e),
-                countDown.doUpdate()
+                this.bgScrollTime += 12 + this.speed;
+                this.bgScrollTime > ch && (this.bgScrollTime = 0);
+
+                ctx.drawImage(this.bgImg, 0, 0, w, h, 0, this.bgScrollTime - ch, sw, ch);
+                ctx.drawImage(this.bgImg, 0, 0, w, h, 0, this.bgScrollTime, sw, ch);
+
+                countDown.doUpdate();
+
             },
             onStop: function() {
                 e("#gameoverPanel").show(),
                 setTimeout(function() {
-                    g.show(),
+                    gameover.show(),
                     e("#gameoverPanel").hide()
                 }, 1e3),
-                b.gameTime = gameCount
+                road.gameTime = gameCount
             },
             onTimeout: function() {
                 e("#timeoutPanel").show(),
                 setTimeout(function(){
-                    g.show(),
+                    gameover.show(),
                     e("#timeoutPanel").hide()
                 }, 1e3);
             }
@@ -487,56 +496,57 @@
             id: 0,
             init: function(t) {
                 this.game = t,
-                e(i).addClass("playing"),
-                m.show(),
+                e(canvas).addClass("playing"),
+                scoreModel.show(),
                 this.initEvent()
             },
             initEvent: function() {
                 this.clear(),
-                d.move(e(i).width() / 2, e(i).height()),
-                i = e(i);
-                if (f) {
+                car.move(e(canvas).width() / 2, e(canvas).height()),
+                canvas = e(canvas);
+                if (supTouch) {
                     var t = function(e) {
                         e.preventDefault();
                         var t = e.targetTouches[0],
-                            n = t.pageX - i.offset().left,
-                            r = t.pageY - i.offset().top;
-                        d.move(n, r)
+                            n = t.pageX - canvas.offset().left,
+                            r = t.pageY - canvas.offset().top;
+                        car.move(n, r)
                     };
-                    i.get(0).removeEventListener("touchmove", t),
-                    i.get(0).addEventListener("touchmove", t, !1)
-                } else i.off("mousemove").on("mousemove", function(e) {
-                    var t = e.clientX - i.offset().left,
-                        n = e.clientY - i.offset().top;
-                    d.move(t, n)
+                    canvas.get(0).removeEventListener("touchmove", t),
+                    canvas.get(0).addEventListener("touchmove", t, !1)
+                } else canvas.off("mousemove").on("mousemove", function(e) {
+                    var t = e.clientX - canvas.offset().left,
+                        n = e.clientY - canvas.offset().top;
+                    car.move(t, n)
                 })
             },
             clear: function() {
                 this.game.time = 0,
                 this.game.score = 0,
                 this.game.bgScrollTime = 0,
-                d.status = !0,
-                v.planes = [],
-                v.planesNum = 0,
-                o.innerHTML = m.format(this.game.score),
-                g.hide()
+                car.status = !0,
+                obstacle.planes = [],
+                obstacle.planesNum = 0,
+                scoreDom.innerHTML = scoreModel.format(this.game.score),
+                gameover.hide()
             },
             enter: function() {},
             update: function() {
                 this.game.time++,
                 this.game.bgScroll(),
-                v.scrolling(),
-                d.moving(this.game.time),
-                o.innerHTML = m.format(this.game.score)
+                obstacle.scrolling(),
+                car.moving(this.game.time),
+                scoreDom.innerHTML = scoreModel.format(this.game.score)
             },
             handleInput: function() {},
             render: function() {}
         });
         w[t.id] = t
-    })(),
-    n()
+    })();
 
-    // if(p.getCookie('num') && p.getCookie('num') < 1){
+    render();
+
+    // if(cookiefn.getCookie('num') && cookiefn.getCookie('num') < 1){
     //         location.href = gConfig.localPath;
     // }
 
